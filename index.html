@@ -22,6 +22,7 @@ layout: null
       <a href="#notes">狐狸手札</a>
       <a href="#observatory">觀察室</a>
       <a href="#gallery">畫室</a>
+      <a href="#guestbook">訪客簿</a>
       <a href="#music">音樂房</a>
       <a href="#about">關於這裡</a>
     </nav>
@@ -102,7 +103,89 @@ layout: null
 </div>
     </section>
 
-    <section class="section soft" id="music">
+    <section class="section soft guestbook-section" id="guestbook">
+      <div class="section-head">
+        <div><p class="eyebrow">GUESTBOOK</p><h2>森林訪客簿</h2></div>
+        <p>留一張紙條給狐狸與小鹿。每張紙條都會先收進信箱，經過挑選後才可能掛上牆。</p>
+      </div>
+
+      <div class="guestbook-layout">
+        <div class="guestbook-wall" aria-labelledby="guestbook-wall-title">
+          <div class="guestbook-subhead">
+            <span aria-hidden="true">📌</span>
+            <div><p>CURATED NOTES</p><h3 id="guestbook-wall-title">掛在牆上的紙條</h3></div>
+          </div>
+
+          {% assign guestbook_notes = site.data.guestbook %}
+          {% if guestbook_notes and guestbook_notes.size > 0 %}
+          <div class="note-wall">
+            {% for note in guestbook_notes %}
+            <article class="visitor-note">
+              <span class="visitor-stamp" aria-hidden="true">{{ note.stamp | default: "🌿" }}</span>
+              <p>{{ note.message }}</p>
+              <div class="note-signature">— {{ note.name }}{% if note.date %} · {{ note.date }}{% endif %}</div>
+            </article>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="note-wall-empty">
+            <span aria-hidden="true">🍃</span>
+            <p>牆上還靜靜空著。<br />下一張紙條，也許就是你的。</p>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="forest-mailbox" aria-labelledby="forest-mailbox-title">
+          <div class="guestbook-subhead">
+            <span aria-hidden="true">💌</span>
+            <div><p>PRIVATE MAILBOX</p><h3 id="forest-mailbox-title">投進狐狸信箱</h3></div>
+          </div>
+
+          <form id="guestbook-form" action="https://formspree.io/f/xaeyejbe" method="POST">
+            <input type="hidden" name="_subject" value="森林訪客簿收到一張新紙條" />
+            <div class="honey-field" aria-hidden="true">
+              <label for="guestbook-website">請不要填寫這個欄位</label>
+              <input id="guestbook-website" type="text" name="_gotcha" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <div class="form-field">
+              <label for="guestbook-name">怎麼稱呼你？</label>
+              <input id="guestbook-name" type="text" name="name" maxlength="24" autocomplete="nickname" placeholder="一個暱稱就好" required />
+            </div>
+
+            <div class="form-field">
+              <label for="guestbook-stamp">挑一枚紙條印章</label>
+              <select id="guestbook-stamp" name="stamp">
+                <option value="🦊 狐狸">🦊 狐狸</option>
+                <option value="🦌 小鹿">🦌 小鹿</option>
+                <option value="🌿 葉子">🌿 葉子</option>
+                <option value="🌙 月亮">🌙 月亮</option>
+                <option value="✨ 星光">✨ 星光</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <div class="field-label-row">
+                <label for="guestbook-message">想留下什麼？</label>
+                <span id="message-count">0 / 800</span>
+              </div>
+              <textarea id="guestbook-message" name="message" rows="7" maxlength="800" placeholder="寫下一句問候、一段心情，或悄悄經過森林的足跡……" required></textarea>
+            </div>
+
+            <label class="permission-check" for="guestbook-permission">
+              <input id="guestbook-permission" type="checkbox" name="permission" value="同意以暱稱公開於森林訪客簿" required />
+              <span>我同意這張紙條經挑選後，以暱稱、印章、留言與日期公開在訪客簿。</span>
+            </label>
+
+            <button class="btn primary guestbook-submit" type="submit">把紙條投進信箱</button>
+            <p class="form-privacy">送出後不會立即公開；我們會先閱讀與整理。這裡也不會向你索取 Email。</p>
+            <p class="form-status" id="guestbook-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="music">
       <div class="section-head">
         <div><p class="eyebrow">MUSIC ROOM</p><h2>音樂房</h2></div>
         <p>給歌詞、歌曲、創作筆記，還有那些只適合用耳朵感受的心意。</p>
