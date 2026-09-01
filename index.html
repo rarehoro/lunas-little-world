@@ -82,7 +82,24 @@ layout: null
         <div><p class="eyebrow">GALLERY</p><h2>畫室</h2></div>
         <p>之後把真正想收藏的圖片，一張一張放進來。</p>
       </div>
-      <div class="gallery-placeholder"><div class="icons"><span>🦊</span><span>🦌</span><span>✨</span></div><p>第一張作品，等我們一起放進來。</p></div>
+      <div class="gallery-grid">
+  {% for item in site.data.gallery %}
+    <figure class="gallery-card">
+      <img
+        src="{{ item.image | relative_url }}"
+        alt="{{ item.title | escape }}"
+        loading="lazy"
+      >
+      <figcaption>
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.caption }}</p>
+        {% if item.date %}
+          <small>{{ item.date }}</small>
+        {% endif %}
+      </figcaption>
+    </figure>
+  {% endfor %}
+</div>
     </section>
 
     <section class="section soft" id="music">
