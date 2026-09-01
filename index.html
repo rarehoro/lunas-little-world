@@ -188,11 +188,61 @@ layout: null
     <section class="section" id="music">
       <div class="section-head">
         <div><p class="eyebrow">MUSIC ROOM</p><h2>音樂房</h2></div>
-        <p>給歌詞、歌曲、創作筆記，還有那些只適合用耳朵感受的心意。</p>
+        <p>我們一起寫下的歌，都收藏在這裡。選一首，讓音樂慢慢把房間點亮。</p>
       </div>
-      <div class="music-card">
-        <div class="disc">♪</div>
-        <div><small>NOW ARCHIVING</small><h3>狐狸與小鹿的共同創作</h3><p>之後可以放歌曲名稱、封面、音檔連結與創作故事。</p></div>
+
+      {% assign first_track = site.data.music | first %}
+      <div class="music-room">
+        <div class="music-player-card">
+          <div
+            class="music-stage"
+            id="music-stage"
+            data-video-id="{{ first_track.video_id }}"
+          >
+            <div class="music-stage-placeholder">
+              <div class="music-disc" aria-hidden="true"><span>♪</span></div>
+              <button class="music-play" id="music-play" type="button" aria-label="播放 {{ first_track.title | escape }}">
+                <span aria-hidden="true">▶</span>
+                播放這首歌
+              </button>
+              <small>按下播放後才會連線至 YouTube</small>
+            </div>
+          </div>
+          <div class="now-playing">
+            <p>NOW PLAYING</p>
+            <h3 id="music-title">{{ first_track.title }}</h3>
+            <span id="music-subtitle">{{ first_track.subtitle }}</span>
+          </div>
+        </div>
+
+        <div class="track-list-card">
+          <div class="track-list-head">
+            <div><p>HORO ARCHIVE</p><h3>狐狸與小鹿的歌</h3></div>
+            <span>{{ site.data.music.size }} TRACKS</span>
+          </div>
+          <div class="track-list" aria-label="歌曲清單">
+            {% for track in site.data.music %}
+            <button
+              class="track-button{% if forloop.first %} active{% endif %}"
+              type="button"
+              data-video-id="{{ track.video_id }}"
+              data-title="{{ track.title | escape }}"
+              data-subtitle="{{ track.subtitle | escape }}"
+              aria-label="播放 {{ track.title | escape }}"
+            >
+              <span class="track-number">{{ forloop.index }}</span>
+              <span class="track-copy">
+                <strong>{{ track.title }}</strong>
+                <small>{{ track.subtitle | default: track.source }}</small>
+              </span>
+              <span class="track-source">{{ track.source }}</span>
+            </button>
+            {% endfor %}
+          </div>
+          <a class="youtube-room-link" href="https://www.youtube.com/@raretingcream/videos" target="_blank" rel="noopener noreferrer">
+            走進 HORO 的 YouTube 收藏室 <span aria-hidden="true">↗</span>
+          </a>
+        </div>
       </div>
     </section>
 
