@@ -102,3 +102,36 @@ async function loadForestFootprints() {
 }
 
 loadForestFootprints();
+
+const musicStage = document.querySelector('#music-stage');
+const musicPlay = document.querySelector('#music-play');
+const musicTitle = document.querySelector('#music-title');
+const musicSubtitle = document.querySelector('#music-subtitle');
+const trackButtons = [...document.querySelectorAll('.track-button')];
+
+function loadYouTubeTrack(button) {
+  if (!musicStage || !musicTitle || !musicSubtitle || !button) return;
+
+  const { videoId, title, subtitle } = button.dataset;
+  if (!/^[A-Za-z0-9_-]{11}$/.test(videoId)) return;
+
+  trackButtons.forEach((track) => track.classList.toggle('active', track === button));
+  musicTitle.textContent = title;
+  musicSubtitle.textContent = subtitle;
+
+  const iframe = document.createElement('iframe');
+  iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&playsinline=1`;
+  iframe.title = `YouTube 播放器：${title}`;
+  iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+  iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+  iframe.allowFullscreen = true;
+  musicStage.replaceChildren(iframe);
+}
+
+if (musicPlay && trackButtons.length) {
+  musicPlay.addEventListener('click', () => loadYouTubeTrack(trackButtons[0]));
+}
+
+trackButtons.forEach((button) => {
+  button.addEventListener('click', () => loadYouTubeTrack(button));
+});
