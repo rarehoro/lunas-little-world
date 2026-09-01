@@ -58,3 +58,47 @@ if (guestbookForm && guestbookStatus) {
     }
   });
 }
+
+const visitsToday = document.querySelector('#visits-today');
+const visitsTotal = document.querySelector('#visits-total');
+const footprintsStatus = document.querySelector('#footprints-status');
+
+function taipeiDateString() {
+  const parts = new Intl.DateTimeFormat('en', {
+    timeZone: 'Asia/Taipei',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(new Date());
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  return `${values.year}-${values.month}-${values.day}`;
+}
+
+async function fetchFootprintCount(url) {
+  const response = await fetch(url, { headers: { Accept: 'application/json' } });
+  if (response.status === 404) return '0';
+  if (!response.ok) throw new Error('Footprint count unavailable');
+  const data = await response.json();
+  return data.count || '0';
+}
+
+async function loadForestFootprints() {
+  if (!visitsToday || !visitsTotal || !footprintsStatus) return;
+
+  const counterUrl = 'https://lunas-little-world.goatcounter.com/counter/TOTAL.json';
+  const todayUrl = `${counterUrl}?start=${taipeiDateString()}`;
+
+  try {
+    const [today, total] = await Promise.all([
+      fetchFootprintCount(todayUrl),
+      fetchFootprintCount(counterUrl),
+    ]);
+    visitsToday.textContent = today;
+    visitsTotal.textContent = total;
+  } catch (error) {
+    footprintsStatus.classList.add('error');
+    footprintsStatus.textContent = '森林正在整理足跡，晚一點再回來看看。';
+  }
+}
+
+loadForestFootprints();
