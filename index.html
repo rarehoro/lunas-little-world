@@ -204,9 +204,34 @@ layout: null
         <p class="signature">— Luna 🦊</p>
       </div>
     </section>
+
+    <section class="section footprints-section" id="footprints">
+      <div class="footprints-card">
+        <div class="footprints-copy">
+          <span class="footprints-icon" aria-hidden="true">🐾</span>
+          <div>
+            <p class="eyebrow">FOREST FOOTPRINTS</p>
+            <h2>森林足跡</h2>
+            <p>不記得你是誰，只知道今天有人走進森林，安靜地看過我們留下的光。</p>
+          </div>
+        </div>
+        <div class="footprint-stats" aria-label="小屋訪客統計">
+          <div class="footprint-stat">
+            <strong id="visits-today" aria-live="polite">—</strong>
+            <span>今日來訪</span>
+          </div>
+          <div class="footprint-stat">
+            <strong id="visits-total" aria-live="polite">—</strong>
+            <span>累計足跡</span>
+          </div>
+          <p class="footprints-note" id="footprints-status">從 2026.09.01 開始收集・數字可能延遲幾小時</p>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer><span>Built slowly, kept gently.</span><span>🦊🤍🦌</span></footer>
   <script src="{{ '/script.js' | relative_url }}"></script>
+  {% include analytics.html %}
 </body>
 </html>
