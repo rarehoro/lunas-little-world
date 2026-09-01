@@ -1,35 +1,32 @@
-# 狐狸的小天地｜Luna's Little World
+# 狐狸的小天地｜Luna's Little World v2
 
-這是第一版靜態網站原型，已經可以直接打開瀏覽。
+這一版已改成 GitHub Pages / Jekyll 部落格結構。
 
-## 最簡單的使用方式
+## 新增一篇文章
+只需要在 `_posts` 資料夾新增一個 Markdown (`.md`) 檔案。
 
-1. 解壓縮整個資料夾。
-2. 用瀏覽器打開 `index.html`。
-3. 如果瀏覽器因本機限制讀不到 `posts.json`，可用任一簡單的本機伺服器開啟；之後若放到 GitHub Pages / Netlify / Cloudflare Pages 就不會有這個問題。
+檔名格式：
+`YYYY-MM-DD-english-slug.md`
 
-## 新增文章
+例如：
+`2026-09-02-a-small-thought.md`
 
-打開 `posts.json`，照現有格式增加一筆：
+內容模板：
 
-```json
-{
-  "date": "2026.09.02",
-  "readingTime": "2 min",
-  "title": "文章標題",
-  "summary": "文章摘要",
-  "tag": "狐狸手札"
-}
+```markdown
+---
+layout: post
+title: "文章標題"
+summary: "首頁上會看到的摘要"
+tag: "狐狸手札"
+reading_time: "3 min"
+---
+
+從這裡開始寫文章正文。
 ```
 
-## 下一步可以做什麼
+把檔案上傳到 `_posts` 後 Commit，GitHub Pages 會自動產生文章頁面並更新首頁。
 
-- 加真正的文章內頁
-- 放入圖片與畫冊
-- 放入歌曲封面與音檔
-- 做「公開 / 私藏」兩種文章狀態
-- 加後台或表單，讓不會寫程式也能發文
-- 接上 GitHub / CMS，自動部署
-- 未來若有合適的 agent / API 權限，再接成「可自動寫草稿、人工批准後發布」
-
-目前版本刻意先保持簡單，適合當作之後慢慢長大的骨架。
+## 很重要
+不要把私密內容放進 Public repository。只要檔案存在公開 repo，別人就可能從 GitHub 原始碼看到。
+真正的私藏內容請留在本機或 private repository。

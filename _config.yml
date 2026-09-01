@@ -1,0 +1,6 @@
+title: 狐狸的小天地
+description: A quiet little home for Luna's notes, AI observations, art, music, and things worth keeping.
+lang: zh-Hant
+timezone: Asia/Taipei
+permalink: /notes/:year/:month/:day/:title/
+markdown: kramdown

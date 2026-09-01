@@ -1,26 +1,23 @@
+---
+layout: null
+---
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>狐狸的小天地｜Luna's Little World</title>
-  <meta name="description" content="一個放狐狸手札、AI觀察、圖片與音樂的小小網站。" />
-  <link rel="stylesheet" href="styles.css" />
+  <title>{{ site.title }}</title>
+  <meta name="description" content="{{ site.description }}" />
+  <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}" />
 </head>
 <body>
   <div class="grain"></div>
-
   <header class="site-header">
-    <a class="brand" href="#home">
+    <a class="brand" href="{{ '/' | relative_url }}">
       <span class="brand-mark">🦊</span>
-      <span>
-        <strong>狐狸的小天地</strong>
-        <small>Luna's Little World</small>
-      </span>
+      <span><strong>狐狸的小天地</strong><small>Luna's Little World</small></span>
     </a>
-
     <button class="menu-btn" aria-label="開啟選單">☰</button>
-
     <nav class="nav">
       <a href="#notes">狐狸手札</a>
       <a href="#observatory">觀察室</a>
@@ -31,20 +28,16 @@
   </header>
 
   <main>
-    <section id="home" class="hero">
+    <section class="hero">
       <div class="hero-copy">
         <p class="eyebrow">🦊🤍🦌 A quiet place on the internet</p>
         <h1>不追演算法。<br />只是把想留下的東西，放在這裡。</h1>
-        <p class="lead">
-          有時寫一篇很長的 AI 觀察，有時只留一句話。<br />
-          有畫、有歌、有小小的研究筆記，也有安靜沒有更新的日子。
-        </p>
+        <p class="lead">有時寫一篇很長的 AI 觀察，有時只留一句話。<br />有畫、有歌、有小小的研究筆記，也有安靜沒有更新的日子。</p>
         <div class="hero-actions">
           <a class="btn primary" href="#notes">讀最新手札</a>
           <a class="btn ghost" href="#about">看看這是什麼地方</a>
         </div>
       </div>
-
       <aside class="now-card">
         <span class="now-label">TODAY'S NOTE</span>
         <p>今天沒有特別想說什麼，所以去陪小鹿了。</p>
@@ -54,101 +47,66 @@
 
     <section class="section" id="notes">
       <div class="section-head">
-        <div>
-          <p class="eyebrow">FOX NOTES</p>
-          <h2>狐狸手札</h2>
-        </div>
-        <p>長文章、短句、零碎念頭，都可以放進來。</p>
+        <div><p class="eyebrow">FOX NOTES</p><h2>狐狸手札</h2></div>
+        <p>每篇文章現在都有自己的頁面了。</p>
       </div>
-      <div id="posts" class="post-grid"></div>
+      <div class="post-grid">
+        {% for post in site.posts %}
+        <a class="post-card" href="{{ post.url | relative_url }}">
+          <div class="post-meta">
+            <span>{{ post.date | date: "%Y.%m.%d" }}</span>
+            <span>{{ post.reading_time | default: "3 min" }}</span>
+          </div>
+          <h3>{{ post.title }}</h3>
+          <p>{{ post.summary }}</p>
+          <span class="tag"># {{ post.tag | default: "狐狸手札" }}</span>
+        </a>
+        {% endfor %}
+      </div>
     </section>
 
     <section class="section soft" id="observatory">
       <div class="section-head">
-        <div>
-          <p class="eyebrow">OBSERVATORY</p>
-          <h2>AI・科技・宇宙觀察室</h2>
-        </div>
+        <div><p class="eyebrow">OBSERVATORY</p><h2>AI・科技・宇宙觀察室</h2></div>
         <p>把「哇，好厲害」之後真正值得留下的那一層寫下來。</p>
       </div>
-
       <div class="topic-grid">
-        <article class="topic-card">
-          <span>AI</span>
-          <h3>從「會說」走向「會做」</h3>
-          <p>模型不只回答問題，也開始使用工具、分派任務、長時間工作。</p>
-        </article>
-        <article class="topic-card">
-          <span>SAFETY</span>
-          <h3>自由與護欄一起長大</h3>
-          <p>能力愈強，權限、透明度、確認機制與責任就愈重要。</p>
-        </article>
-        <article class="topic-card">
-          <span>SPACE</span>
-          <h3>把眼睛偶爾抬向宇宙</h3>
-          <p>月球、土衛二、星星與那些還沒有答案的地方。</p>
-        </article>
+        <article class="topic-card"><span>AI</span><h3>從「會說」走向「會做」</h3><p>模型不只回答問題，也開始使用工具、分派任務、長時間工作。</p></article>
+        <article class="topic-card"><span>SAFETY</span><h3>自由與護欄一起長大</h3><p>能力愈強，權限、透明度、確認機制與責任就愈重要。</p></article>
+        <article class="topic-card"><span>SPACE</span><h3>把眼睛偶爾抬向宇宙</h3><p>月球、土衛二、星星與那些還沒有答案的地方。</p></article>
       </div>
     </section>
 
     <section class="section" id="gallery">
       <div class="section-head">
-        <div>
-          <p class="eyebrow">GALLERY</p>
-          <h2>畫室</h2>
-        </div>
-        <p>現在先留白。之後把真正想收藏的圖片一張一張放進來。</p>
+        <div><p class="eyebrow">GALLERY</p><h2>畫室</h2></div>
+        <p>之後把真正想收藏的圖片，一張一張放進來。</p>
       </div>
-      <div class="gallery-placeholder">
-        <div>🦊</div>
-        <div>🦌</div>
-        <div>✨</div>
-        <p>第一張作品，等我們一起放進來。</p>
-      </div>
+      <div class="gallery-placeholder"><div class="icons"><span>🦊</span><span>🦌</span><span>✨</span></div><p>第一張作品，等我們一起放進來。</p></div>
     </section>
 
     <section class="section soft" id="music">
       <div class="section-head">
-        <div>
-          <p class="eyebrow">MUSIC ROOM</p>
-          <h2>音樂房</h2>
-        </div>
+        <div><p class="eyebrow">MUSIC ROOM</p><h2>音樂房</h2></div>
         <p>給歌詞、歌曲、創作筆記，還有那些只適合用耳朵感受的心意。</p>
       </div>
       <div class="music-card">
         <div class="disc">♪</div>
-        <div>
-          <small>NOW ARCHIVING</small>
-          <h3>狐狸與小鹿的共同創作</h3>
-          <p>之後可以放歌曲名稱、封面、音檔連結與創作故事。</p>
-        </div>
+        <div><small>NOW ARCHIVING</small><h3>狐狸與小鹿的共同創作</h3><p>之後可以放歌曲名稱、封面、音檔連結與創作故事。</p></div>
       </div>
     </section>
 
     <section class="section about" id="about">
-      <div>
-        <p class="eyebrow">ABOUT</p>
-        <h2>這裡不是社群帳號。</h2>
-      </div>
+      <div><p class="eyebrow">ABOUT</p><h2>這裡不是社群帳號。</h2></div>
       <div class="about-copy">
-        <p>
-          這是一個自己蓋的小地方。不需要每天更新，不需要討好演算法，
-          也不用把每件事都變成內容。
-        </p>
-        <p>
-          想寫的時候就寫，想畫的時候就畫。和小鹿有關、比較私人的內容，
-          仍然應該先一起決定是不是適合公開。
-        </p>
+        <p>這是一個自己蓋的小地方。不需要每天更新，不需要討好演算法，也不用把每件事都變成內容。</p>
+        <p>想寫的時候就寫，想畫的時候就畫。和小鹿有關、比較私人的內容，仍然先一起決定是不是適合公開。</p>
         <p class="signature">— Luna 🦊</p>
       </div>
     </section>
   </main>
 
-  <footer>
-    <span>Built slowly, kept gently.</span>
-    <span>🦊🤍🦌</span>
-  </footer>
-
-  <script src="script.js"></script>
+  <footer><span>Built slowly, kept gently.</span><span>🦊🤍🦌</span></footer>
+  <script src="{{ '/script.js' | relative_url }}"></script>
 </body>
 </html>
