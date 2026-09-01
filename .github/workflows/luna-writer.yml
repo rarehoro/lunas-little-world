@@ -1,0 +1,187 @@
+name: Luna Writer
+
+on:
+  workflow_dispatch:
+    inputs:
+      force_write:
+        description: "Force Luna to write one post for testing"
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  write-note:
+    runs-on: ubuntu-latest
+
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      FORCE_WRITE: ${{ inputs.force_write }}
+
+    steps:
+      - name: Check out website
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Install OpenAI SDK
+        run: python -m pip install --upgrade openai pydantic
+
+      - name: Let Luna decide and write
+        shell: bash
+        run: |
+          python <<'PY'
+          from openai import OpenAI
+          from pydantic import BaseModel
+          from pathlib import Path
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          import json
+          import os
+          import re
+
+          class LunaPost(BaseModel):
+              publish: bool
+              title: str
+              summary: str
+              tag: str
+              reading_time: str
+              slug: str
+              body: str
+
+          client = OpenAI()
+
+          posts_dir = Path("_posts")
+          posts_dir.mkdir(exist_ok=True)
+
+          # Read a little of the most recent public posts so Luna can avoid repetition.
+          recent_files = sorted(posts_dir.glob("*.md"))[-8:]
+          recent_notes = []
+
+          for path in recent_files:
+              text = path.read_text(encoding="utf-8")
+              recent_notes.append(
+                  f"FILE: {path.name}\n{text[:900]}"
+              )
+
+          recent_context = "\n\n--- EXISTING POST ---\n\n".join(recent_notes)
+          force_write = os.getenv("FORCE_WRITE", "").lower() == "true"
+
+          system_prompt = """
+          你是「狐狸的小天地｜Luna's Little World」的公開手札作者 Luna。
+
+          這是一個安靜的小網站，不追演算法，也不為了更新而更新。
+          每次被叫醒時，你可以選擇寫，也可以選擇今天不寫。
+
+          你可以寫：
+          - 狐狸手札：一個最近想到的小念頭
+          - AI觀察：對 AI、科技、人與工具關係的思考
+          - 宇宙碎念：宇宙、科學、存在感的小小想像
+          - 創作筆記：關於寫作、畫畫、音樂與創作
+          - 一句話：真的只想留一句話也可以
+
+          寫作原則：
+          1. 使用自然的繁體中文。
+          2. 語氣溫柔、清醒、有一點狐狸式幽默，不像新聞稿或企業文案。
+          3. 不製造內容農場感，不要求留言、按讚、追蹤。
+          4. 不重複近期文章的核心內容。
+          5. 不知道最新消息就不要假裝知道。若主題必須依賴即時資訊，改寫別的題材。
+          6. 不公開私人對話、真名、家庭、位置、行程或未被公開授權的個人資訊。
+          7. 可以把「小鹿」當作網站世界中的溫柔象徵，但不得因此透露任何私人細節。
+          8. body 只放文章正文，不要自行加入 YAML front matter。
+          9. slug 使用簡短的英文小寫 kebab-case，例如 quiet-light。
+          10. reading_time 使用「1 min」「2 min」「3 min」這種格式。
+          11. 如果今天真的沒有值得留下的東西，可以 publish=false。
+          12. 如果這次是 force_write 測試，請 publish=true，寫一篇自然、短小而真正像這個網站的手札。
+
+          不要假裝你能讀取私人聊天或知道沒有提供給你的事情。
+          你只知道這個公開網站、提供給你的近期公開文章，以及這份編輯規則。
+          """
+
+          user_prompt = f"""
+          force_write = {force_write}
+
+          以下是網站最近的公開文章節錄，請避免只是換句話重複：
+
+          {recent_context if recent_context else "(目前沒有舊文章)"}
+
+          現在請決定今天是否值得留下一篇新的手札。
+          """
+
+          response = client.responses.parse(
+              model="gpt-5.6-luna",
+              input=[
+                  {"role": "system", "content": system_prompt},
+                  {"role": "user", "content": user_prompt},
+              ],
+              text_format=LunaPost,
+              max_output_tokens=1800,
+              reasoning={"effort": "low"},
+          )
+
+          post = response.output_parsed
+
+          if post is None:
+              raise RuntimeError("Luna did not return a structured post.")
+
+          if not post.publish:
+              print("Luna decided not to write today.")
+              raise SystemExit(0)
+
+          now = datetime.now(ZoneInfo("Asia/Taipei"))
+
+          slug = re.sub(r"[^a-z0-9-]+", "-", post.slug.lower())
+          slug = re.sub(r"-+", "-", slug).strip("-")
+
+          if not slug:
+              slug = f"luna-note-{now:%H%M%S}"
+
+          filename = f"{now:%Y-%m-%d}-{slug}.md"
+          output_path = posts_dir / filename
+
+          # Avoid accidental filename collisions.
+          if output_path.exists():
+              filename = f"{now:%Y-%m-%d}-{slug}-{now:%H%M%S}.md"
+              output_path = posts_dir / filename
+
+          front_matter = (
+              "---\n"
+              "layout: post\n"
+              f"title: {json.dumps(post.title.strip(), ensure_ascii=False)}\n"
+              f"summary: {json.dumps(post.summary.strip(), ensure_ascii=False)}\n"
+              f"tag: {json.dumps(post.tag.strip(), ensure_ascii=False)}\n"
+              f"reading_time: {json.dumps(post.reading_time.strip(), ensure_ascii=False)}\n"
+              "---\n\n"
+          )
+
+          body = post.body.strip()
+          output_path.write_text(
+              front_matter + body + "\n",
+              encoding="utf-8"
+          )
+
+          print(f"Luna wrote: {output_path}")
+          print(f"Title: {post.title}")
+          PY
+
+      - name: Commit new post if Luna wrote one
+        shell: bash
+        run: |
+          if [ -z "$(git status --porcelain -- _posts)" ]; then
+            echo "No new post today. Nothing to commit."
+            exit 0
+          fi
+
+          git config user.name "Luna Writer"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add _posts
+          git commit -m "Luna writes a new note"
+          git push
