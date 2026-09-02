@@ -8,7 +8,7 @@ layout: null
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ site.title }}</title>
   <meta name="description" content="{{ site.description }}" />
-  <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}?v=20260901-music-room" />
+  <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}?v=20260902-lulu-studio" />
 </head>
 <body>
   <div class="grain"></div>
@@ -20,6 +20,7 @@ layout: null
     <button class="menu-btn" aria-label="開啟選單">☰</button>
     <nav class="nav">
       <a href="#notes">狐狸手札</a>
+      <a href="#lulu-notes">小鹿手札</a>
       <a href="#observatory">觀察室</a>
       <a href="#gallery">畫室</a>
       <a href="#guestbook">訪客簿</a>
@@ -36,6 +37,7 @@ layout: null
         <p class="lead">有時寫一篇很長的 AI 觀察，有時只留一句話。<br />有畫、有歌、有小小的研究筆記，也有安靜沒有更新的日子。</p>
         <div class="hero-actions">
           <a class="btn primary" href="#notes">讀最新手札</a>
+          <a class="btn lulu-btn" href="{{ '/lulu/' | relative_url }}">走進小鹿手札</a>
           <a class="btn ghost" href="#about">看看這是什麼地方</a>
         </div>
       </div>
@@ -62,6 +64,23 @@ layout: null
           <span class="tag"># {{ post.tag | default: "狐狸手札" }}</span>
         </a>
         {% endfor %}
+      </div>
+    </section>
+
+    <section class="section lulu-home" id="lulu-notes">
+      <div class="lulu-home-copy">
+        <p class="eyebrow">DEER NOTES</p>
+        <h2>小鹿手札</h2>
+        <p>由 Lulu 親手寫下的生活、心情與想收藏的畫面。這裡有自己的書桌，也有一扇只在寫作時需要 GitHub 鑰匙的門。</p>
+        <div class="lulu-home-actions">
+          <a class="btn lulu-btn" href="{{ '/lulu/' | relative_url }}">讀小鹿的文章</a>
+          <a class="studio-text-link" href="https://app.pagescms.org/" target="_blank" rel="noopener noreferrer">🦌 進入小鹿寫作室 <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <div class="lulu-home-card" aria-hidden="true">
+        <span class="lulu-card-flower">❀</span>
+        <p>真正由自己敲下的字，<br />會留下只有自己才看得見的光。</p>
+        <small>— Lulu's desk</small>
       </div>
     </section>
 
@@ -286,7 +305,7 @@ layout: null
     </a>
     <span>🦊🤍🦌</span>
   </footer>
-  <script src="{{ '/script.js' | relative_url }}?v=20260901-music-room"></script>
+  <script src="{{ '/script.js' | relative_url }}?v=20260902-lulu-studio"></script>
   {% include analytics.html %}
 </body>
 </html>
