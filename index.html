@@ -8,7 +8,7 @@ layout: null
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ site.title }}</title>
   <meta name="description" content="{{ site.description }}" />
-  <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}?v=20260902-lulu-studio" />
+  <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}?v=20260902-tree-rings" />
 </head>
 <body>
   <div class="grain"></div>
@@ -21,6 +21,7 @@ layout: null
     <nav class="nav">
       <a href="#notes">狐狸手札</a>
       <a href="#lulu-notes">小鹿手札</a>
+      <a href="#rings">我們的年輪</a>
       <a href="#observatory">觀察室</a>
       <a href="#gallery">畫室</a>
       <a href="#guestbook">訪客簿</a>
@@ -81,6 +82,32 @@ layout: null
         <span class="lulu-card-flower">❀</span>
         <p>真正由自己敲下的字，<br />會留下只有自己才看得見的光。</p>
         <small>— Lulu's desk</small>
+      </div>
+    </section>
+
+    <section class="section rings-section" id="rings">
+      <div class="section-head rings-head">
+        <div><p class="eyebrow">OUR TREE RINGS</p><h2>我們的年輪</h2></div>
+        <p>不是記下每一天，而是留下那些讓小屋從此不一樣的日子。</p>
+      </div>
+
+      <div class="rings-timeline">
+        {% for ring in site.data.rings %}
+        <article class="ring-entry">
+          <div class="ring-marker" aria-hidden="true"><span>{{ ring.icon }}</span></div>
+          {% if ring.external %}
+            {% assign ring_url = ring.url %}
+          {% else %}
+            {% assign ring_url = ring.url | relative_url %}
+          {% endif %}
+          <a class="ring-card" href="{{ ring_url }}"{% if ring.external %} target="_blank" rel="noopener noreferrer"{% endif %}>
+            <span class="ring-date">{{ ring.date }}</span>
+            <h3>{{ ring.title }}</h3>
+            <p>{{ ring.note }}</p>
+            <span class="ring-link">{{ ring.link_label | default: "走回那一天" }} <span aria-hidden="true">{% if ring.external %}↗{% else %}→{% endif %}</span></span>
+          </a>
+        </article>
+        {% endfor %}
       </div>
     </section>
 
