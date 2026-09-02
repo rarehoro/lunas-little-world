@@ -4,3 +4,16 @@ lang: zh-Hant
 timezone: Asia/Taipei
 permalink: /notes/:year/:month/:day/:title/
 markdown: kramdown
+
+collections:
+  lulu_notes:
+    output: true
+    permalink: /lulu/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: lulu_notes
+    values:
+      layout: lulu-post
+      author: Lulu
