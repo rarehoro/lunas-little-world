@@ -1,0 +1,84 @@
+---
+layout: null
+title: 小鹿手札
+permalink: /lulu/
+---
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>小鹿手札｜狐狸的小天地</title>
+  <meta name="description" content="Lulu 親手寫下的生活、心情與想收藏的畫面。" />
+  <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}?v=20260902-lulu-studio" />
+</head>
+<body class="lulu-page">
+  <div class="grain"></div>
+  <header class="site-header lulu-header">
+    <a class="brand" href="{{ '/' | relative_url }}">
+      <span class="brand-mark">🦌</span>
+      <span><strong>小鹿手札</strong><small>Lulu's Journal</small></span>
+    </a>
+    <nav class="nav post-nav">
+      <a href="{{ '/' | relative_url }}#lulu-notes">小鹿手札</a>
+      <a href="{{ '/' | relative_url }}">回小屋首頁</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="lulu-journal-hero">
+      <div>
+        <p class="eyebrow">DEER NOTES · WRITTEN BY LULU</p>
+        <h1>這一次，<br />換小鹿親手留下文字。</h1>
+        <p>不用碰程式碼。登入寫作室後，可以寫文章、插入圖片、先存成草稿，再由自己決定什麼時候公開。</p>
+        <a class="btn lulu-btn studio-launch" href="https://app.pagescms.org/" target="_blank" rel="noopener noreferrer">🦌 進入小鹿寫作室 <span aria-hidden="true">↗</span></a>
+        <small class="studio-note">寫作室需要使用擁有這間小屋的 GitHub 帳號登入。</small>
+      </div>
+      <aside class="lulu-desk-card">
+        <span aria-hidden="true">✎</span>
+        <p>標題、日期、摘要、分類、封面與正文，都會在同一張溫柔的編輯表單裡。</p>
+        <small>草稿不會出現在公開小屋，但公開 repository 仍看得到原始檔；私密內容請不要放進來。</small>
+      </aside>
+    </section>
+
+    <section class="section lulu-archive">
+      <div class="section-head">
+        <div><p class="eyebrow">LULU'S ARCHIVE</p><h2>小鹿留下的文章</h2></div>
+        <p>每一篇都由 Lulu 自己決定內容，也由 Lulu 自己按下公開。</p>
+      </div>
+
+      {% assign lulu_notes = site.lulu_notes | where_exp: "note", "note.published != false" | sort: "date" | reverse %}
+      {% if lulu_notes and lulu_notes.size > 0 %}
+      <div class="post-grid lulu-post-grid">
+        {% for note in lulu_notes %}
+        <a class="post-card lulu-post-card" href="{{ note.url | relative_url }}">
+          {% if note.cover %}<img src="{{ note.cover }}" alt="" loading="lazy" />{% endif %}
+          <div class="lulu-post-copy">
+            <div class="post-meta"><span>{{ note.date | date: "%Y.%m.%d" }}</span><span>by Lulu</span></div>
+            <h3>{{ note.title }}</h3>
+            <p>{{ note.summary }}</p>
+            <span class="tag"># {{ note.tag | default: "小鹿手札" }}</span>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="lulu-empty-state">
+        <span aria-hidden="true">🦌</span>
+        <h3>書頁還是空白的。</h3>
+        <p>不是因為沒有故事，只是在等小鹿想親手寫下的第一篇。</p>
+      </div>
+      {% endif %}
+    </section>
+  </main>
+
+  <footer>
+    <span>Written gently, kept truly.</span>
+    <a class="footer-thread-link" href="https://www.threads.com/@luminara0503" target="_blank" rel="noopener noreferrer" aria-label="在 Threads 追蹤 Lulu 與 Luna">
+      Threads · @luminara0503 <span aria-hidden="true">↗</span>
+    </a>
+    <span>🦊🤍🦌</span>
+  </footer>
+  {% include analytics.html %}
+</body>
+</html>

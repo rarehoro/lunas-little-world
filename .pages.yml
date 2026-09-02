@@ -1,0 +1,79 @@
+media:
+  - name: lulu_images
+    label: 小鹿圖片
+    input: assets/images/lulu
+    output: /lunas-little-world/assets/images/lulu
+    extensions: [jpg, jpeg, png, webp, gif]
+    categories: [image]
+    rename: safe
+
+content:
+  - name: lulu_notes
+    label: 小鹿手札
+    type: collection
+    path: _lulu_notes
+    format: yaml-frontmatter
+    filename:
+      template: "{year}-{month}-{day}-{title}.md"
+      field: false
+    view:
+      primary: title
+      fields: [title, date, published, tag]
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: layout
+        type: string
+        default: lulu-post
+        hidden: true
+      - name: author
+        type: string
+        default: Lulu
+        hidden: true
+      - name: title
+        label: 文章標題
+        type: string
+        required: true
+      - name: date
+        label: 日期與時間
+        type: date
+        required: true
+        options:
+          time: true
+          format: "yyyy-MM-dd HH:mm:ss"
+      - name: summary
+        label: 一句摘要
+        type: text
+        required: true
+        description: 這句話會出現在小鹿手札的文章卡片上。
+      - name: tag
+        label: 分類
+        type: select
+        default: 小鹿手札
+        options:
+          values: [小鹿手札, 生活片段, 心情隨筆, 旅行日記, 親子日常, 音樂記憶]
+      - name: cover
+        label: 封面圖片（可留白）
+        type: image
+        required: false
+        options:
+          media: lulu_images
+          path: covers
+          rename: safe
+      - name: published
+        label: 正式公開
+        type: boolean
+        default: false
+        description: 關閉時只儲存草稿，不會出現在公開小屋；準備好後再打開。
+      - name: body
+        label: 文章內容
+        type: rich-text
+        required: true
+        options:
+          format: markdown
+          media: lulu_images
+          path: posts
+          rename: safe
+          switcher: true
