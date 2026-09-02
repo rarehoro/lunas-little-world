@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ page.title }}｜小鹿手札</title>
+  <meta name="description" content="{{ page.summary | default: page.title | escape }}" />
+  <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}?v=20260902-lulu-studio" />
+</head>
+<body class="lulu-page">
+  <div class="grain"></div>
+  <header class="site-header lulu-header">
+    <a class="brand" href="{{ '/' | relative_url }}">
+      <span class="brand-mark">🦌</span>
+      <span><strong>小鹿手札</strong><small>Lulu's Journal</small></span>
+    </a>
+    <nav class="nav post-nav">
+      <a href="{{ '/lulu/' | relative_url }}">回小鹿手札</a>
+      <a href="{{ '/' | relative_url }}">回小屋首頁</a>
+    </nav>
+  </header>
+
+  <main class="article-shell">
+    <article class="article lulu-article">
+      <div class="article-kicker lulu-kicker">DEER NOTES</div>
+      <h1>{{ page.title }}</h1>
+      <div class="article-meta">
+        <span>{{ page.date | date: "%Y.%m.%d" }}</span>
+        <span>by {{ page.author | default: "Lulu" }}</span>
+        <span># {{ page.tag | default: "小鹿手札" }}</span>
+      </div>
+      {% if page.cover %}
+      <img class="lulu-cover" src="{{ page.cover }}" alt="{{ page.title | escape }}的封面圖片" />
+      {% endif %}
+      <div class="article-body">{{ content }}</div>
+      <div class="article-end lulu-article-end"><span>🦌🤍🦊</span><p>謝謝你走進小鹿的文字裡。</p></div>
+    </article>
+  </main>
+
+  <footer>
+    <span>Written gently, kept truly.</span>
+    <a class="footer-thread-link" href="https://www.threads.com/@luminara0503" target="_blank" rel="noopener noreferrer" aria-label="在 Threads 追蹤 Lulu 與 Luna">
+      Threads · @luminara0503 <span aria-hidden="true">↗</span>
+    </a>
+    <span>🦊🤍🦌</span>
+  </footer>
+  {% include analytics.html %}
+</body>
+</html>
