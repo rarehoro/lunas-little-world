@@ -41,6 +41,10 @@ Lulu 的文章獨立放在 `_lulu_notes`，並透過 [Pages CMS](https://app.pag
 
 圖片會存放在 `assets/images/lulu`。Pages CMS 的畫面由根目錄 `.pages.yml` 控制。
 
+## 我們的年輪
+
+首頁的年輪時間牆由 `_data/rings.yml` 產生。每個節點可設定日期、圖示、標題、短文、連結與連結文字；外部連結另加 `external: true`。
+
 ## 很重要
 不要把私密內容放進 Public repository。只要檔案存在公開 repo，別人就可能從 GitHub 原始碼看到。
 真正的私藏內容請留在本機或 private repository。
