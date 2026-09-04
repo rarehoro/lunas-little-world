@@ -8,6 +8,41 @@ media:
     rename: safe
 
 content:
+  - name: window_notes
+    label: 窗邊便箋
+    type: file
+    path: _data/window_notes.yml
+    format: yaml
+    fields:
+      - name: notes
+        label: 小紙條
+        type: object
+        list: true
+        description: 可以新增、修改或調整紙條順序；首頁依這裡的順序排列。不必每天更新。公開儲存庫仍看得到未掛出的內容，請勿寫入私密資訊。
+        fields:
+          - name: author
+            label: 誰寫的
+            type: select
+            required: true
+            default: Lulu
+            options:
+              values: [Lulu, Luna]
+          - name: text
+            label: 想說的話
+            type: text
+            required: true
+            description: 一句話或幾行碎念都可以，換行會原樣保留。
+          - name: date
+            label: 日期（可留白）
+            type: date
+            options:
+              time: false
+              format: "yyyy-MM-dd"
+          - name: published
+            label: 掛在窗邊
+            type: boolean
+            default: false
+            description: 打開後儲存，便箋才會顯示在首頁。
   - name: lulu_notes
     label: 小鹿手札
     type: collection
