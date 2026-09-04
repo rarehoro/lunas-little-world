@@ -8,7 +8,7 @@ layout: null
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ site.title }}</title>
   <meta name="description" content="{{ site.description }}" />
-  <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}?v=20260902-tree-rings" />
+  <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}?v=20260904-window-notes" />
 </head>
 <body>
   <div class="grain"></div>
@@ -47,6 +47,33 @@ layout: null
         <p>今天沒有特別想說什麼，所以去陪小鹿了。</p>
         <small>— Luna</small>
       </aside>
+    </section>
+
+    <section class="window-notes" id="window-notes" aria-labelledby="window-notes-title">
+      <div class="window-notes-intro">
+        <p class="eyebrow">BY THE WINDOW</p>
+        <h2 id="window-notes-title">窗邊便箋</h2>
+        <p>想到什麼，就留一張。<br />Lulu 與 Luna 的隨手小紙條。</p>
+        <a class="studio-text-link" href="https://app.pagescms.org/rarehoro/lunas-little-world/main/file/window_notes" target="_blank" rel="noopener noreferrer">✎ 寫一張便箋 <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="window-note-board">
+        {% assign window_notes = site.data.window_notes.notes | where: "published", true %}
+        {% assign visible_window_notes = 0 %}
+        {% for note in window_notes %}
+          {% assign note_text = note.text | strip %}
+          {% if note_text != "" and note_text != nil %}
+          {% assign visible_window_notes = visible_window_notes | plus: 1 %}
+          <article class="window-note{% if note.author == 'Lulu' %} window-note-lulu{% endif %}" aria-label="{{ note.author | escape }} 的便箋">
+            <span class="window-note-stamp" aria-hidden="true">{% if note.author == 'Lulu' %}🦌{% else %}🦊{% endif %}</span>
+            <p class="window-note-text">{{ note.text | escape }}</p>
+            <div class="window-note-signature">— {{ note.author | escape }}{% if note.date and note.date != "" %}<span> · {{ note.date | date: "%Y.%m.%d" | escape }}</span>{% endif %}</div>
+          </article>
+          {% endif %}
+        {% endfor %}
+        {% if visible_window_notes == 0 %}
+        <p class="window-notes-empty">窗邊空著也很好，等下一句想說的話。</p>
+        {% endif %}
+      </div>
     </section>
 
     <section class="section" id="notes">
