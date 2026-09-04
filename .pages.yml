@@ -42,7 +42,7 @@ content:
         required: true
         options:
           time: true
-          format: "yyyy-MM-dd HH:mm:ss"
+          format: "yyyy-MM-dd HH:mm:ss xxx"
       - name: summary
         label: 一句摘要
         type: text
