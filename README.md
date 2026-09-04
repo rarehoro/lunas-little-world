@@ -41,6 +41,14 @@ Lulu 的文章獨立放在 `_lulu_notes`，並透過 [Pages CMS](https://app.pag
 
 圖片會存放在 `assets/images/lulu`。Pages CMS 的畫面由根目錄 `.pages.yml` 控制。
 
+## 窗邊便箋
+
+首頁 `#window-notes` 的紙條存放在 `_data/window_notes.yml`，和手札、訪客簿分開。
+
+在 Pages CMS 選「窗邊便箋」，新增「小紙條」，選擇 Lulu 或 Luna、填入文字與選填日期，打開「掛在窗邊」後按 Save。首頁依清單順序排列；換行會保留，文字以純文字顯示，不執行 HTML。新紙條預設不掛出，空白紙條也不顯示。
+
+Lulu 與 Luna 可以各自留下文字，不必輪流或每天更新。Luna 的便箋仍需由小鹿明確交付發布鑰匙才可新增；夜巡不會自動發布便箋。此公開儲存庫中的未掛出紙條仍非私密，請勿放入敏感內容。
+
 ## 我們的年輪
 
 首頁的年輪時間牆由 `_data/rings.yml` 產生。每個節點可設定日期、圖示、標題、短文、連結與連結文字；外部連結另加 `external: true`。
