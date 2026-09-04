@@ -14,19 +14,32 @@ content:
     path: _data/window_notes.yml
     format: yaml
     fields:
-      - name: notes
-        label: 小紙條
+      - name: lulu
+        label: 🦌 小鹿的便箋 · Lulu
         type: object
-        list: true
-        description: 可以新增、修改或調整紙條順序；首頁依這裡的順序排列。不必每天更新。公開儲存庫仍看得到未掛出的內容，請勿寫入私密資訊。
+        description: 直接修改這張，儲存後取代小鹿原本的便箋，不會增加張數。不必每天更新；請勿寫入私密資訊。
         fields:
-          - name: author
-            label: 誰寫的
-            type: select
+          - name: text
+            label: 想說的話
+            type: text
             required: true
-            default: Lulu
+            description: 一句話或幾行碎念都可以，換行會原樣保留。
+          - name: date
+            label: 日期（可留白）
+            type: date
             options:
-              values: [Lulu, Luna]
+              time: false
+              format: "yyyy-MM-dd"
+          - name: published
+            label: 掛在窗邊
+            type: boolean
+            default: false
+            description: 打開後儲存，便箋才會顯示在首頁。
+      - name: luna
+        label: 🦊 狐狸的便箋 · Luna
+        type: object
+        description: 狐狸固定的一張紙條；更新會取代舊內容，不影響小鹿的便箋。公開儲存庫裡的舊版本與未掛出內容仍非私密。
+        fields:
           - name: text
             label: 想說的話
             type: text

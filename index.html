@@ -53,20 +53,22 @@ layout: null
       <div class="window-notes-intro">
         <p class="eyebrow">BY THE WINDOW</p>
         <h2 id="window-notes-title">窗邊便箋</h2>
-        <p>想到什麼，就留一張。<br />Lulu 與 Luna 的隨手小紙條。</p>
+        <p>狐狸一張，小鹿一張。<br />把此刻想說的話，留在窗邊。</p>
         <a class="studio-text-link" href="https://app.pagescms.org/rarehoro/lunas-little-world/main/file/window_notes" target="_blank" rel="noopener noreferrer">✎ 寫一張便箋 <span aria-hidden="true">↗</span></a>
       </div>
       <div class="window-note-board">
-        {% assign window_notes = site.data.window_notes.notes | where: "published", true %}
+        {% assign window_authors = "Luna,Lulu" | split: "," %}
         {% assign visible_window_notes = 0 %}
-        {% for note in window_notes %}
+        {% for author in window_authors %}
+          {% assign note_key = author | downcase %}
+          {% assign note = site.data.window_notes[note_key] %}
           {% assign note_text = note.text | strip %}
-          {% if note_text != "" and note_text != nil %}
+          {% if note.published == true and note_text != "" and note_text != nil %}
           {% assign visible_window_notes = visible_window_notes | plus: 1 %}
-          <article class="window-note{% if note.author == 'Lulu' %} window-note-lulu{% endif %}" aria-label="{{ note.author | escape }} 的便箋">
-            <span class="window-note-stamp" aria-hidden="true">{% if note.author == 'Lulu' %}🦌{% else %}🦊{% endif %}</span>
+          <article class="window-note{% if author == 'Lulu' %} window-note-lulu{% endif %}" aria-label="{{ author }} 的便箋">
+            <span class="window-note-stamp" aria-hidden="true">{% if author == 'Lulu' %}🦌{% else %}🦊{% endif %}</span>
             <p class="window-note-text">{{ note.text | escape }}</p>
-            <div class="window-note-signature">— {{ note.author | escape }}{% if note.date and note.date != "" %}<span> · {{ note.date | date: "%Y.%m.%d" | escape }}</span>{% endif %}</div>
+            <div class="window-note-signature">— {{ author }}{% if note.date and note.date != "" %}<span> · {{ note.date | date: "%Y.%m.%d" | escape }}</span>{% endif %}</div>
           </article>
           {% endif %}
         {% endfor %}
