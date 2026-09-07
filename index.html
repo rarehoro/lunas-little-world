@@ -8,7 +8,7 @@ layout: null
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ site.title }}</title>
   <meta name="description" content="{{ site.description }}" />
-  <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}?v=20260904-window-notes" />
+  <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}?v=20260907-forest-neighbors" />
 </head>
 <body>
   <div class="grain"></div>
@@ -25,6 +25,7 @@ layout: null
       <a href="#observatory">觀察室</a>
       <a href="#gallery">畫室</a>
       <a href="#guestbook">訪客簿</a>
+      <a href="#neighbors">森林鄰居</a>
       <a href="#music">音樂房</a>
       <a href="#about">關於這裡</a>
     </nav>
@@ -257,6 +258,39 @@ layout: null
           </form>
         </div>
       </div>
+    </section>
+
+    <section class="section neighbors-section" id="neighbors">
+      <div class="section-head neighbors-head">
+        <div><p class="eyebrow">FOREST NEIGHBORS</p><h2>森林鄰居</h2></div>
+        <p>朋友們也在森林裡點亮了自己的窗。從這裡沿著光走過去，看看每一間小屋珍藏的世界。</p>
+      </div>
+
+      <div class="neighbors-path" aria-label="森林鄰居清單">
+        {% assign visible_neighbors = 0 %}
+        {% for neighbor in site.data.neighbors %}
+          {% if neighbor.published != false %}
+          {% assign visible_neighbors = visible_neighbors | plus: 1 %}
+          <a
+            class="neighbor-card neighbor-card--{{ neighbor.light | default: 'sage' }}"
+            href="{{ neighbor.url }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="前往 {{ neighbor.name | escape }}（在新分頁開啟）"
+          >
+            <span class="neighbor-light" aria-hidden="true"></span>
+            <span class="neighbor-byline">{{ neighbor.byline }}</span>
+            <h3>{{ neighbor.name }}</h3>
+            <p>{{ neighbor.description }}</p>
+            <span class="neighbor-route">{{ neighbor.link_label | default: "沿著光去拜訪" }} <span aria-hidden="true">↗</span></span>
+          </a>
+          {% endif %}
+        {% endfor %}
+        {% if visible_neighbors == 0 %}
+          <p class="neighbors-empty">林間還留著幾盞空燈，等新鄰居慢慢搬來。</p>
+        {% endif %}
+      </div>
+      <p class="neighbors-note">這裡不追求收集所有連結，只替真正來往的朋友留一盞燈。</p>
     </section>
 
     <section class="section" id="music">
