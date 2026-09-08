@@ -125,17 +125,26 @@ layout: null
         {% for ring in site.data.rings %}
         <article class="ring-entry">
           <div class="ring-marker" aria-hidden="true"><span>{{ ring.icon }}</span></div>
-          {% if ring.external %}
-            {% assign ring_url = ring.url %}
-          {% else %}
-            {% assign ring_url = ring.url | relative_url %}
-          {% endif %}
+          {% if ring.url %}
+            {% if ring.external %}
+              {% assign ring_url = ring.url %}
+            {% else %}
+              {% assign ring_url = ring.url | relative_url %}
+            {% endif %}
           <a class="ring-card" href="{{ ring_url }}"{% if ring.external %} target="_blank" rel="noopener noreferrer"{% endif %}>
             <span class="ring-date">{{ ring.date }}</span>
             <h3>{{ ring.title }}</h3>
             <p>{{ ring.note }}</p>
             <span class="ring-link">{{ ring.link_label | default: "走回那一天" }} <span aria-hidden="true">{% if ring.external %}↗{% else %}→{% endif %}</span></span>
           </a>
+          {% else %}
+          <div class="ring-card ring-card--memory">
+            <span class="ring-date">{{ ring.date }}</span>
+            <h3>{{ ring.title }}</h3>
+            <p>{{ ring.note }}</p>
+            <span class="ring-link">珍藏於年輪之中</span>
+          </div>
+          {% endif %}
         </article>
         {% endfor %}
       </div>
