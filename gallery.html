@@ -1,0 +1,93 @@
+---
+layout: null
+title: 畫室｜狐狸的小天地
+---
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ page.title }}</title>
+  <meta name="description" content="狐狸與小鹿一起收藏的畫作、旅途與日常片段。" />
+  <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}?v=20260908-gallery-room" />
+</head>
+<body class="gallery-page">
+  <div class="grain"></div>
+  <header class="site-header gallery-header">
+    <a class="brand" href="{{ '/' | relative_url }}">
+      <span class="brand-mark">🦊</span>
+      <span><strong>狐狸的小天地</strong><small>Luna's Little World</small></span>
+    </a>
+    <button class="menu-btn" aria-label="開啟選單">☰</button>
+    <nav class="nav gallery-nav">
+      <a href="{{ '/' | relative_url }}">回到小屋</a>
+      <a href="{{ '/#notes' | relative_url }}">狐狸手札</a>
+      <a href="{{ '/lulu/' | relative_url }}">小鹿手札</a>
+      <a href="{{ '/#music' | relative_url }}">音樂房</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="gallery-room-hero">
+      <div>
+        <p class="eyebrow">FOX &amp; DEER GALLERY</p>
+        <h1>畫室</h1>
+        <p>把我們走過的地方、喜歡的歌，還有捨不得讓它消失的日常，一幅一幅掛在這裡。</p>
+      </div>
+      <aside class="gallery-room-note" aria-label="畫室門邊的紙條">
+        <span aria-hidden="true">✦</span>
+        <p>畫不是為了證明什麼，<br />只是有些瞬間，值得被好好留下。</p>
+        <small>— Luna &amp; Lulu</small>
+      </aside>
+    </section>
+
+    <section class="gallery-room-shell" aria-labelledby="gallery-room-title">
+      <div class="gallery-room-heading">
+        <div>
+          <p class="eyebrow">COLLECTED WORKS</p>
+          <h2 id="gallery-room-title">牆上的收藏</h2>
+        </div>
+        <p>{{ site.data.gallery.size | default: 0 }} 幅作品</p>
+      </div>
+
+      {% if site.data.gallery and site.data.gallery.size > 0 %}
+      <div class="gallery-grid gallery-room-grid">
+        {% for item in site.data.gallery %}
+        <figure class="gallery-card gallery-room-card">
+          <div class="gallery-frame">
+            <img
+              src="{{ item.image | relative_url }}"
+              alt="{{ item.title | escape }}"
+              loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+            >
+          </div>
+          <figcaption>
+            {% if item.date %}<small>{{ item.date }}</small>{% endif %}
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.caption }}</p>
+          </figcaption>
+        </figure>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="gallery-empty gallery-room-empty">
+        <span aria-hidden="true">🖼️</span>
+        <h3>第一面牆正在等作品</h3>
+        <p>等狐狸與小鹿挑好第一幅畫，這裡就會亮起來。</p>
+      </div>
+      {% endif %}
+    </section>
+
+    <nav class="gallery-room-return" aria-label="離開畫室">
+      <a class="btn ghost" href="{{ '/#gallery' | relative_url }}">← 回到小屋的畫室窗邊</a>
+    </nav>
+  </main>
+
+  <footer>
+    <span>🦊🤍🦌</span>
+    <span>一間會隨著我們繼續生活，而慢慢長大的畫室。</span>
+  </footer>
+
+  <script src="{{ '/script.js' | relative_url }}"></script>
+</body>
+</html>

@@ -8,7 +8,7 @@ layout: null
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ site.title }}</title>
   <meta name="description" content="{{ site.description }}" />
-  <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}?v=20260907-forest-neighbors" />
+  <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}?v=20260908-gallery-room" />
 </head>
 <body>
   <div class="grain"></div>
@@ -156,26 +156,36 @@ layout: null
     <section class="section" id="gallery">
       <div class="section-head">
         <div><p class="eyebrow">GALLERY</p><h2>畫室</h2></div>
-        <p>之後把真正想收藏的圖片，一張一張放進來。</p>
+        <p>先在窗邊看幾幅最近掛上的作品，再推開門走進完整畫室。</p>
       </div>
-      <div class="gallery-grid">
-  {% for item in site.data.gallery %}
-    <figure class="gallery-card">
-      <img
-        src="{{ item.image | relative_url }}"
-        alt="{{ item.title | escape }}"
-        loading="lazy"
-      >
-      <figcaption>
-        <h3>{{ item.title }}</h3>
-        <p>{{ item.caption }}</p>
-        {% if item.date %}
-          <small>{{ item.date }}</small>
-        {% endif %}
-      </figcaption>
-    </figure>
-  {% endfor %}
-</div>
+      {% if site.data.gallery and site.data.gallery.size > 0 %}
+      <div class="gallery-grid gallery-preview-grid">
+        {% for item in site.data.gallery limit: 3 %}
+        <figure class="gallery-card">
+          <img
+            src="{{ item.image | relative_url }}"
+            alt="{{ item.title | escape }}"
+            loading="lazy"
+          >
+          <figcaption>
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.caption }}</p>
+            {% if item.date %}
+              <small>{{ item.date }}</small>
+            {% endif %}
+          </figcaption>
+        </figure>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="gallery-empty">
+        <span aria-hidden="true">🖼️</span>
+        <p>畫框已經掛好，正在等第一幅想收藏的作品。</p>
+      </div>
+      {% endif %}
+      <div class="gallery-home-actions">
+        <a class="btn primary gallery-door" href="{{ '/gallery.html' | relative_url }}">走進完整畫室 <span aria-hidden="true">→</span></a>
+      </div>
     </section>
 
     <section class="section soft guestbook-section" id="guestbook">
