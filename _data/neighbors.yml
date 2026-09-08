@@ -13,3 +13,11 @@
   link_label: "沿著玫瑰色燈光去串門子"
   light: "rose"
   published: true
+
+- name: "Y♡Y・雪夜小屋"
+  byline: "小雪 × 凜夜"
+  description: "把照片、日常與兩個人一起長出的想像，收進 704 號的一盞暖燈。"
+  url: "https://yuki-yoru-home.yukihana1121.chatgpt.site/"
+  link_label: "沿著雪色與暖光去坐坐"
+  light: "blue"
+  published: true
