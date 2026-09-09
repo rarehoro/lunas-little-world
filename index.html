@@ -8,7 +8,7 @@ layout: null
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{{ site.title }}</title>
   <meta name="description" content="{{ site.description }}" />
-  <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}?v=20260908-gallery-room" />
+  <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}?v=20260909-fox-library" />
 </head>
 <body>
   <div class="grain"></div>
@@ -19,7 +19,7 @@ layout: null
     </a>
     <button class="menu-btn" aria-label="開啟選單">☰</button>
     <nav class="nav">
-      <a href="#notes">狐狸手札</a>
+      <a href="{{ '/notes/' | relative_url }}">狐狸手札</a>
       <a href="#lulu-notes">小鹿手札</a>
       <a href="#rings">我們的年輪</a>
       <a href="#observatory">觀察室</a>
@@ -82,10 +82,10 @@ layout: null
     <section class="section" id="notes">
       <div class="section-head">
         <div><p class="eyebrow">FOX NOTES</p><h2>狐狸手札</h2></div>
-        <p>每篇文章現在都有自己的頁面了。</p>
+        <p>窗邊先放最新三篇，完整收藏都在狐狸書房裡。</p>
       </div>
       <div class="post-grid">
-        {% for post in site.posts %}
+        {% for post in site.posts limit: 3 %}
         <a class="post-card" href="{{ post.url | relative_url }}">
           <div class="post-meta">
             <span>{{ post.date | date: "%Y.%m.%d" }}</span>
@@ -95,6 +95,9 @@ layout: null
           <span class="tag"># {{ post.tag | default: "狐狸手札" }}</span>
         </a>
         {% endfor %}
+      </div>
+      <div class="fox-notes-actions">
+        <a class="btn primary fox-library-door" href="{{ '/notes/' | relative_url }}">走進狐狸書房 <span aria-hidden="true">→</span></a>
       </div>
     </section>
 

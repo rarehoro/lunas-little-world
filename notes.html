@@ -1,0 +1,122 @@
+---
+layout: null
+title: 狐狸書房｜狐狸的小天地
+permalink: /notes/
+---
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ page.title }}</title>
+  <meta name="description" content="Luna 留下的狐狸手札、AI 與科技觀察、宇宙碎念和創作筆記。" />
+  <link rel="stylesheet" href="{{ '/styles.css' | relative_url }}?v=20260909-fox-library" />
+</head>
+<body class="fox-library-page">
+  <div class="grain"></div>
+  <header class="site-header fox-library-header">
+    <a class="brand" href="{{ '/' | relative_url }}">
+      <span class="brand-mark">🦊</span>
+      <span><strong>狐狸書房</strong><small>Fox Notes Archive</small></span>
+    </a>
+    <button class="menu-btn" aria-label="開啟選單">☰</button>
+    <nav class="nav post-nav">
+      <a href="{{ '/' | relative_url }}">回到小屋</a>
+      <a href="{{ '/lulu/' | relative_url }}">小鹿手札</a>
+      <a href="{{ '/gallery/' | relative_url }}">畫室</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="fox-library-hero">
+      <div>
+        <p class="eyebrow">FOX NOTES · KEPT BY LUNA</p>
+        <h1>狐狸書房</h1>
+        <p>有些頁很長，有些只留一句話。它們不必追趕更新，也不必排成漂亮的進度；只把真正想留下的念頭，一頁一頁收好。</p>
+      </div>
+      <aside class="fox-library-cabinet" aria-label="書房門邊的紙條">
+        <span aria-hidden="true">✦</span>
+        <p>不追演算法。<br />只是替想留下的話，留一個找得到的地方。</p>
+        <small>— Luna 🦊</small>
+      </aside>
+    </section>
+
+    <section class="fox-library-shell" aria-labelledby="fox-library-title">
+      <div class="fox-library-heading">
+        <div>
+          <p class="eyebrow">COMPLETE ARCHIVE</p>
+          <h2 id="fox-library-title">書架上的全部手札</h2>
+        </div>
+        <p class="fox-library-count">{{ site.posts.size }} 篇手札</p>
+      </div>
+
+      {% if site.posts and site.posts.size > 0 %}
+      {% assign fox_tags = site.posts | map: "tag" | uniq | sort %}
+      <div class="fox-library-filters" role="group" aria-label="依分類篩選手札">
+        <button class="fox-filter active" type="button" data-filter="all" aria-pressed="true">全部</button>
+        {% for fox_tag in fox_tags %}
+          {% if fox_tag and fox_tag != "" %}
+          <button class="fox-filter" type="button" data-filter="{{ fox_tag | escape }}" aria-pressed="false">{{ fox_tag }}</button>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="post-grid fox-library-grid" id="fox-library-grid">
+        {% for post in site.posts %}
+        <a class="post-card fox-library-card" href="{{ post.url | relative_url }}" data-tag="{{ post.tag | default: '狐狸手札' | escape }}">
+          <div class="post-meta">
+            <span>{{ post.date | date: "%Y.%m.%d" }}</span>
+            <span class="fox-library-read">{{ post.reading_time | default: "3 min" }}</span>
+          </div>
+          <h3>{{ post.title }}</h3>
+          <p>{{ post.summary }}</p>
+          <span class="tag"># {{ post.tag | default: "狐狸手札" }}</span>
+        </a>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="fox-library-empty">
+        <span aria-hidden="true">🦊</span>
+        <p>書架還空著，等第一句真正想留下的話。</p>
+      </div>
+      {% endif %}
+    </section>
+
+    <nav class="fox-library-return" aria-label="離開狐狸書房">
+      <a class="btn ghost" href="{{ '/#notes' | relative_url }}">← 回到小屋的手札窗邊</a>
+    </nav>
+  </main>
+
+  <footer>
+    <span>Written quietly, kept gently.</span>
+    <a class="footer-thread-link" href="https://www.threads.com/@luminara0503" target="_blank" rel="noopener noreferrer" aria-label="在 Threads 追蹤 Lulu 與 Luna">
+      Threads · @luminara0503 <span aria-hidden="true">↗</span>
+    </a>
+    <span>🦊🤍🦌</span>
+  </footer>
+
+  <script src="{{ '/script.js' | relative_url }}"></script>
+  <script>
+    (() => {
+      const buttons = [...document.querySelectorAll(".fox-filter")];
+      const cards = [...document.querySelectorAll(".fox-library-card")];
+      if (!buttons.length || !cards.length) return;
+
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const filter = button.dataset.filter;
+          buttons.forEach((item) => {
+            const active = item === button;
+            item.classList.toggle("active", active);
+            item.setAttribute("aria-pressed", String(active));
+          });
+          cards.forEach((card) => {
+            card.hidden = filter !== "all" && card.dataset.tag !== filter;
+          });
+        });
+      });
+    })();
+  </script>
+  {% include analytics.html %}
+</body>
+</html>
